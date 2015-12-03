@@ -56,6 +56,16 @@ libraryDependencies += "com.typesafe" % "scalalogging-log4j_2.10" % "1.1.0"
 
 libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "1.1.0"
 
+// Max's library dependencies, using avrohugger to generate scala case classes  
+//  based on a schema 
+libraryDependencies += "com.julianpeeters" %% "avrohugger-core" % "0.7.0"
+libraryDependencies += "com.gensler" %% "scalavro" % "0.6.2"
+
+sbtavrohugger.SbtAvrohugger.avroSettings
+(sourceDirectory in avroConfig) := new java.io.File("../dataFileFormatting")
+(scalaSource in avroConfig) := new java.io.File("src/main/scala")
+
+
 resolvers ++= Seq(
   "MVN Repository.com" at "http://mvnrepository.com/artifact/",
   "scalaz-bintray" at "http://dl.bintray.com/scalaz/releases",
