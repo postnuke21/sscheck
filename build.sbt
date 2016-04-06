@@ -34,6 +34,8 @@ libraryDependencies += "org.apache.spark" %% "spark-core" % sparkVersion
 
 libraryDependencies += "org.apache.spark" %% "spark-streaming" % sparkVersion
 
+libraryDependencies += "org.apache.spark" %% "spark-sql" % sparkVersion
+
 // additional libraries: NOTE as we are writing a testing library they should also be available for main
 libraryDependencies += "org.scalatest" %% "scalatest" % "2.2.1"
 
@@ -60,6 +62,11 @@ libraryDependencies += "com.typesafe" %% "scalalogging-slf4j" % "1.1.0"
 //  based on a schema 
 libraryDependencies += "com.julianpeeters" %% "avrohugger-core" % "0.7.0"
 libraryDependencies += "com.gensler" %% "scalavro" % "0.6.2"
+
+libraryDependencies += "com.databricks" %% "spark-avro" % "2.0.1"
+
+libraryDependencies +=  "org.apache.avro" % "avro" % "1.7.7" 
+libraryDependencies +=  "org.apache.avro" % "avro-mapred" % "1.7.7" 
 
 sbtavrohugger.SbtAvrohugger.avroSettings
 (sourceDirectory in avroConfig) := new java.io.File("../dataFileFormatting")
