@@ -1,0 +1,7 @@
+New generators from avro files: definir un generador que lee un archivo Avro de disco local, y va generando los records que hay en el archivo uno detras de otro. Esto deberia ser en lo que esta trabajando ahora.
+
+	Generar propiedades del tipo new records y recordar el anterior para que pueda saber donde esta
+
+	> Cargar archivos .avro los cuales vienen con su schema
+	Esto nos permitira luego definir un trait , con el que nos 	apoyaremos a la hora de definir el generador
+
