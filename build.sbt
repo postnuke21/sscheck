@@ -1,6 +1,6 @@
 import com.typesafe.sbteclipse.plugin.EclipsePlugin.EclipseKeys._
 
-name := "sscheck"
+name := "sscheck-max2"
 
 version := "1.0"
 
@@ -8,7 +8,7 @@ scalaVersion := "2.10.5"
 
 crossScalaVersions  := Seq("2.10.5")
 
-lazy val sparkVersion = "1.4.1"
+lazy val sparkVersion =  "1.6.1" // "1.4.1"
 
 lazy val specs2Version = "3.6.4" 
 
@@ -65,12 +65,12 @@ libraryDependencies += "com.gensler" %% "scalavro" % "0.6.2"
 
 libraryDependencies += "com.databricks" %% "spark-avro" % "2.0.1"
 
-libraryDependencies +=  "org.apache.avro" % "avro" % "1.7.7" 
-libraryDependencies +=  "org.apache.avro" % "avro-mapred" % "1.7.7" 
+//libraryDependencies +=  "org.apache.avro" % "avro" % "1.7.7" 
+//libraryDependencies +=  "org.apache.avro" % "avro-mapred" % "1.7.7" 
 
-sbtavrohugger.SbtAvrohugger.avroSettings
-(sourceDirectory in avroConfig) := new java.io.File("../dataFileFormatting")
-(scalaSource in avroConfig) := new java.io.File("src/main/scala")
+//sbtavrohugger.SbtAvrohugger.avroSettings
+//(sourceDirectory in avroConfig) := new java.io.File("../dataFileFormatting")
+//(scalaSource in avroConfig) := new java.io.File("src/main/scala")
 
 
 resolvers ++= Seq(
