@@ -53,5 +53,5 @@ class FromRDDReplacementGenTest
       println(s"reg = $reg")
       defaultToLast must_== false
   
-  }.set(minTestsOk = 6).verbose
+  }.set(minTestsOk = 10).verbose
 }

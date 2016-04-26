@@ -35,8 +35,7 @@ extends Serializable{
   //it was necessary to extend the Serializable class otherwise and Spark exception was being ecountered
   if (!withRepl) {
     val ids = impSC.broadcast(sampled.map(_._2))
-    rdd = rdd.filter(v => !ids.value.contains(v._2))
-    println(rdd.count)
+    rdd.filter(v => !ids.value.contains(v._2))    
   }
 
   def gen(): Gen[A] = {
