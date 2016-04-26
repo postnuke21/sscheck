@@ -15,7 +15,7 @@ import com.gensler.scalavro.types.AvroType
 
 
 class FromFileGen[A]  (path : String, val defaultToLast : Boolean) {
-    
+   // DEFINIR UN TRAIT con el generador que define el metodo cn el state
   //Variable necessary to parse the register read, it determinates the schema the data will have
   //we also define a lastRegRead variable to be able to generate the last value read
   //when we reach EOF
