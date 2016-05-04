@@ -38,7 +38,7 @@ class FromRDDGenTest extends Specification
   val filePath = "src/test/resources/twitter.avro"
   val sqlContext = new SQLContext(impSC)
   val rdd = sqlContext.read.avro(filePath).rdd
-
+ 
   val defaultToLast = false
 
   def prop1 = Prop.forAll(FromRDDGen(rdd, 4, defaultToLast)) {

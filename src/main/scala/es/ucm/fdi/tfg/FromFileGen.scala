@@ -25,6 +25,7 @@ class FromFileGen[A]  (path : String, val defaultToLast : Boolean) {
     var lastRegRead = new twitter_schema(null,null,0)
         
     def gen(): Gen[twitter_schema] = {
+      
        
       //Reads an avro file and returns a generator containing that data
       //for each register, defaultToLast = FALSE determinates if we return

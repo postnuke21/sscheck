@@ -34,7 +34,7 @@ extends Serializable{
   //leaving the rdd only with those registers not sampled
   //it was necessary to extend the Serializable class otherwise and Spark exception was being ecountered
   if (!withRepl) {
-    val ids = impSC.broadcast(sampled.map(_._2))
+    var  ids = impSC.broadcast(sampled.map(_._2))
     rdd.filter(v => !ids.value.contains(v._2))    
   }
 
