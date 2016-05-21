@@ -9,10 +9,14 @@ New generators from avro files: definir un generador que lee un archivo Avro de 
 	> scalacheck ,specs2
 	> Riesgos de operaciones en rdd grandes , mas alla de paralelizar y collect
 
+>Travis
+>SBT
+>Git	
 
 >High order functions
 
+> Spark sampleo . persistencia , with / w/o replacement
 
-> Specs2 trabajar con asrresult ( trait que transforma cualquiercosa que ueda pasar co mo un resultado)// result
+> Specs2 trabajar con asResult ( trait que transforma cualquiercosa que ueda pasar co mo un resultado)// result 
 	
 

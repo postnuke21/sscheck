@@ -31,10 +31,10 @@ class FromRDDGenTest extends Specification
   def is = s2"""FromRDDGenTest where
     -  prop1 $prop1
     """
-
-  //ERROR : Trying to get the file from the classpath IS NOT working , using relative paths instead
-  //val filePath = getClass.getResource("/twitter.avro").toString
-  //Using SparkSQL to load the data into a  DataFrame , once we have it we convert it to RDD[Row]
+    
+  /**
+  *Using SparkSQL to load the data into a  DataFrame , once we have it we convert it to RDD[A]
+  */
   val filePath = "src/test/resources/twitter.avro"
   val sqlContext = new SQLContext(impSC)
   val rdd = sqlContext.read.avro(filePath).rdd
