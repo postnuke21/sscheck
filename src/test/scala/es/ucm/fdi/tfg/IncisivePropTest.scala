@@ -43,6 +43,7 @@ class IncisiveProp(impSC: SparkContext) {
     //var rdd = sqlContext.read.avro(filePath).rdd.zipWithUniqueId()
     //var mixedGen : Gen[A] = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC).asInstanceOf[A] 
     
+    
     //Asigned to Gen.fail to test if the generator switching implemented below works
     var mixedGen : Gen[A] = Gen.fail
   
