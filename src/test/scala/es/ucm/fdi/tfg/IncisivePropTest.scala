@@ -41,14 +41,14 @@ class IncisiveProp(impSC: SparkContext) {
    
     /**Commented these 2 lines to test it first with a simple generator*/  
     //var rdd = sqlContext.read.avro(filePath).rdd.zipWithUniqueId()
-    //var mixedGen : Gen[A] = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC).asInstanceOf[A]
+    //var mixedGen : Gen[A] = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC).asInstanceOf[A] 
     
     //Asigned to Gen.fail to test if the generator switching implemented below works
     var mixedGen : Gen[A] = Gen.fail
-    //Llamar al generador y en cuanto obtengamos un NONE coger de G1 
+  
     mixedGen.sample match{
       case None =>  println("No remaining samples left switching to given Gen"); mixedGen = g1    
-      case Some(_) => println("There are still val 	ues")
+      case Some(_) => println("There are still values")
     }
     
     val prop = Prop.forAll(mixedGen)(f) 
@@ -70,7 +70,7 @@ class IncisiveProp(impSC: SparkContext) {
   }
 
   /**
-   * This function evaluates for 2 generators and only return a counterexample if it finds one value for each
+   * This function evalu	ates for 2 generators and only return a counterexample if it finds one value for each
    * generator whom reject their specified properties
    */
   def forAll[A, B](g1: Gen[A], g2: Gen[B], filePath1: String, filePath2: String)
