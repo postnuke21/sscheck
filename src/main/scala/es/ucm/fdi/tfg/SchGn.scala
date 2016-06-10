@@ -17,16 +17,16 @@ object SchGn extends App {
 
   def test() {
     
-    val tweet1 = twitter_schema("human1", "hola mundo", 1366154481)
-    val tweet2 = twitter_schema("human2", "adios mundo", 1366154482)
-    val tweet3 = twitter_schema("human3", "probando tweets", 1366154483)
-    val tweet4 = twitter_schema("human4", "hay un limite de 140 caracteres", 1366154484)
-    val tweet5 = twitter_schema("human5", "favorito", 1366154485)
-    val tweet6 = twitter_schema("human6", "writing random tweets", 1366154486)
-    val tweet7 = twitter_schema("human7", "bbye every1", 1366154487)
+    val tweet1 = TwitterSchema("human1", "hola mundo", 1366154481)
+    val tweet2 = TwitterSchema("human2", "adios mundo", 1366154482)
+    val tweet3 = TwitterSchema("human3", "probando tweets", 1366154483)
+    val tweet4 = TwitterSchema("human4", "hay un limite de 140 caracteres", 1366154484)
+    val tweet5 = TwitterSchema("human5", "favorito", 1366154485)
+    val tweet6 = TwitterSchema("human6", "writing random tweets", 1366154486)
+    val tweet7 = TwitterSchema("human7", "bbye every1", 1366154487)
 
 
-    val tweetType = AvroType[twitter_schema]
+    val tweetType = AvroType[TwitterSchema]
     val schemaEx = tweetType.schema().toString()
     
     

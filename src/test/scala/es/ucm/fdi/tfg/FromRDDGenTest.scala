@@ -33,19 +33,18 @@ class FromRDDGenTest extends Specification
     """
     
   /**
-  *Using SparkSQL to load the data into a  DataFrame , once we have it we convert it to RDD[A]
+  *Using SparkSQL to load the data into a  DataFrame , once we have it, we convert it to RDD[A]
   */
   val filePath = "src/test/resources/twitter.avro"
   val sqlContext = new SQLContext(impSC)
   val rdd = sqlContext.read.avro(filePath).rdd
- 
-  val defaultToLast = false
+  val defaultToLast = true
 
   def prop1 = Prop.forAll(FromRDDGen(rdd, 4, defaultToLast)) {
     (reg) =>
       println(s"reg = $reg")
-      defaultToLast must_== false
+      defaultToLast must_== true
     //Property reduced to one sampling? 
 
-  }.set(minTestsOk = 8).verbose
+  }.set(minTestsOk = 6).verbose
 }

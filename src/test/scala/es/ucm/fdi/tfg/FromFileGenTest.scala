@@ -29,12 +29,12 @@ class FromFileGenTest
  //ERROR: Al intentar cargar el archivo nos topamos con una excepcion fileNotFound
  //val filePath = getClass.getResource("/tweetList.avro").toString()
  
-  val defaultToLast = false
+  val defaultToLast = true
   
   def prop1 =  Prop.forAll(FromFileGen(filePath, defaultToLast)){ 
     
     (reg) => println(s"reg = $reg")
-    defaultToLast must_== false
+    defaultToLast must_== true  
     
-  }.set(minTestsOk = 4).verbose
+  }.set(minTestsOk = 10).verbose
 }

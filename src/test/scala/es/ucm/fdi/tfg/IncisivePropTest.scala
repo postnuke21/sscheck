@@ -26,7 +26,7 @@ class IncisiveProp(impSC: SparkContext) {
   /** val where counterexamples will be stored */
   val counterExamplePath = "counterExamples.txt"
 
-  /** Data necessary to define the enviroment where the sampling (using FromRDDReplacementGen)will take place*/
+  /** Data necessary to define the environment where the sampling (using FromRDDReplacementGen)will take place*/
   val sqlContext = new SQLContext(impSC)
   val defaultToLast = true
   val withRepl = false
@@ -40,19 +40,19 @@ class IncisiveProp(impSC: SparkContext) {
      */
    
     /**Commented these 2 lines to test it first with a simple generator*/  
-    //var rdd = sqlContext.read.avro(filePath).rdd.zipWithUniqueId()
-    //var mixedGen : Gen[A] = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC).asInstanceOf[A] 
+   // var rdd = sqlContext.read.avro(filePath).rdd.zipWithUniqueId()
+   // var mixedGen : Gen[A] = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC).asInstanceOf[A] 
     
     
     //Asigned to Gen.fail to test if the generator switching implemented below works
-    var mixedGen : Gen[A] = Gen.fail
+    var mixedGen : Gen[A] = g1
   
     mixedGen.sample match{
       case None =>  println("No remaining samples left switching to given Gen"); mixedGen = g1    
-      case Some(_) => println("There are still values")
+      case Some(_) => println(mixedGen)
     }
     
-    val prop = Prop.forAll(mixedGen)(f) 
+    val prop = Prop.forAll(mixedGen)(f)   
     new Prop {
       def apply(prms: org.scalacheck.Gen.Parameters): org.scalacheck.Prop.Result = {
         val res = prop.apply(prms)
@@ -66,26 +66,26 @@ class IncisiveProp(impSC: SparkContext) {
           writeToFile(counterexample, counterExamplePath)
         }
         res
-      }
-    }
+      } 
+    } 
   }
 
   /**
-   * This function evalu	ates for 2 generators and only return a counterexample if it finds one value for each
-   * generator whom reject their specified properties
+   * This function evaluates for 2 generators and only returns a counterexample if it finds a value 
+   * that rejects a property based in the tuple
    */
   def forAll[A, B](g1: Gen[A], g2: Gen[B], filePath1: String, filePath2: String)
                   (f: (A, B) => Prop): Prop = forAll(g1, filePath1)(t => forAll(g2, filePath2)(f(t, _: B)))
 
   /**
-   * This function evaluates for 2 generators and only return a counterexample if it finds one value for each
-   * generator whom reject their specified properties
+   * This function evaluates for 3 generators and only returns a counterexample if it finds a value 
+   * that rejects a property based in the tuple
    */
   def forAll[A, B, C](g1: Gen[A], g2: Gen[B], g3: Gen[C], filePath1: String, filePath2: String, filePath3: String)(f: (A, B, C) => Prop): Prop = forAll(g1, filePath1)(t => forAll(g2, g3, filePath2, filePath3)(f(t, _: B, _: C)))
 
   /**
-   * This function evaluates for 2 generators and only return a counterexample if it finds one value for each
-   * generator whom reject their specified properties
+   * This function evaluates for 4 generators and only returns a counterexample if it finds a value 
+   * that rejects a property based in the tuple
    */
   def forAll[A, B, C, D](g1: Gen[A], g2: Gen[B], g3: Gen[C], g4: Gen[D], filePath1: String, filePath2: String, filePath3: String, filePath4: String)(f: (A, B, C, D) => Prop): Prop = forAll(g1, filePath1)(t => forAll(g2, g3, g4, filePath2, filePath3, filePath4)(f(t, _: B, _: C, _: D)))
 
@@ -120,10 +120,11 @@ class IncisivePropTest
     with SharedSparkContextBeforeAfterAll {
 
   def is = sequential ^ s2"""
-       - where ${p2(-7)}
+        - where $p1 """
+     /*  - where ${p2(-7)}
        - where ${p2(-4)}
        - where $p3 
-     """
+     """ */
 
   /**Spark context definition */
   override def defaultParallelism: Int = 3
@@ -133,25 +134,36 @@ class IncisivePropTest
   /**
    * This specific file contains 10 tweets
    */
-  val filePath = "src/test/resources/twitter.avro"
-  val sqlContext = new SQLContext(impSC)
-
-  //
+  val filePath = "src/test/resources/users.avro"
   val incisiveProp = IncisiveProp(impSC)
+  
+ 
+  val sqlContext = new SQLContext(impSC) 
+  val defaultToLast = true
+  val withRepl = false
+  val bufferSize = 5
+  var rdd = sqlContext.read.avro(filePath).rdd.zipWithUniqueId()
+  val rddGen = FromRDDReplacementGen(rdd, bufferSize, defaultToLast, withRepl, impSC)
 
-  //Testing for a forall func with 2 gens
-    def p2(v: Int) = incisiveProp.forAll(Gen.oneOf(-5, -10), Gen.oneOf(2, -3), "path.avro", "path2") { (x, y) =>
-    println(s"x (for v = $v): $x")
-    println(s"y : $y")
-
+  
+    def p1 = incisiveProp.forAll(rddGen, filePath) { row =>
+      println(s"Row: $row")
+      row.get(0).toString().toUpperCase().toLowerCase()==row.get(0).toString().toLowerCase()
+  }.set(minTestsOk = 30).verbose
+       
+  
+   /* def p2(v: Int) = incisiveProp.forAll(Gen.oneOf(-5, -10), Gen.oneOf(2, -3), "path1.avro", "path2.avro") { (x, y) =>
+    println(s"(for v = $v)")
+    println(s"x : $x & y : $y")
+    
     x * y must be_>(v)
 
-  }.set(minTestsOk = 3).verbose
+  }.set(minTestsOk = 1).verbose
   
   
   def p3 = incisiveProp.forAll(Gen.oneOf("hola", "adios"), filePath) { sentence =>
     println(s"sentence: $sentence")
      sentence == "adios"
-  }.set(minTestsOk = 3).verbose
+  }.set(minTestsOk = 1).verbose */
 }
 

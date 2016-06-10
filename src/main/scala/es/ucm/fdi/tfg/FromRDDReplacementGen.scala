@@ -1,4 +1,4 @@
-package es.ucm.fdi.tfg
+  package es.ucm.fdi.tfg
 
 import scala.language.implicitConversions
 
@@ -34,9 +34,10 @@ class FromRDDReplacementGen[A, B](var rdd: RDD[(A, B)], bufferSize: Int, default
     for (i <- 0 to sampled.length - 1)
       buffer.add(sampled(i))
 
-    /**Collects the ids from the RDD using broadcast and filters the rdd with these values 
-      *leaving the rdd only with those registers not sampled
-      *it was necessary to extend the Serializable class otherwise and Spark exception was being encountered
+    /**Collects the ids from the RDD using broadcast and filters the rdd 
+     	*with these values, leaving the rdd only with those registers not sampled
+      *It was necessary to extend the Serializable class otherwise a Spark 
+      *exception was being encountered
      */
     if (!withRepl) {
       var ids = impSC.broadcast(sampled.map(_._2))

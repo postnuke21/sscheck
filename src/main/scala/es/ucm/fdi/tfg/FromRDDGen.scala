@@ -16,7 +16,7 @@ class FromRDDGen[A](rdd: RDD[A], bufferSize: Int, defaultToLast: Boolean) {
   //Persist rdd in memory
   rdd.cache()
   println("Generating list with " + bufferSize + " size")
-  Console.flush()
+  //Console.flush()
 
   //Generates a list with random samples of size bufferSize with replacement
   val samplingSeed = new Random(System.currentTimeMillis()).nextLong()
@@ -40,7 +40,7 @@ class FromRDDGen[A](rdd: RDD[A], bufferSize: Int, defaultToLast: Boolean) {
       case Some(x) => {
         if (buffer.size() > 1)
           buffer.remove()
-        else if (buffer.size == 1 && defaultToLast)
+        else if (buffer.size == 1 && !defaultToLast)
           buffer.remove()
         Gen.const(x)
       }
